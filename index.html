@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informe grupal de IA sobre Transformación de Funciones — UdeA</title>
+  <style>
+    :root {
+      --udea-dark: #024926;
+      --udea-green: #0B6E3B;
+      --udea-light: #e8f5ee;
+      --udea-accent: #10b981;
+      --bg-page: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ENCABEZADO OSCURO */
+    .hero-header {
+      background: linear-gradient(135deg, #01331a 0%, var(--udea-dark) 55%, var(--udea-green) 100%);
+      color: #ffffff;
+      padding: 28px 20px 24px;
+      border-bottom: 4px solid var(--udea-accent);
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .badge-inst {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+      color: #d1fae5;
+    }
+
+    .hero-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .hero-subtitle {
+      color: #cbd5e1;
+      font-size: 14px;
+      max-width: 820px;
+      margin-bottom: 18px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    .meta-item span {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #6ee7b7;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* PESTAÑAS SUPERIORES */
+    .top-nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 10px 20px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: var(--udea-dark);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(2, 73, 38, 0.25);
+    }
+
+    /* SECCIONES */
+    .main-content {
+      padding: 24px 20px 48px;
+    }
+
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TARJETAS GENERALES */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--udea-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* CAJA DE PROMPT */
+    .prompt-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 18px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 13.5px;
+      line-height: 1.65;
+      border-left: 4px solid var(--udea-accent);
+      margin-top: 12px;
+    }
+
+    .btn-copy {
+      background: var(--udea-green);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      background: var(--udea-dark);
+    }
+
+    /* BOTONES DE IA (ChatGPT, Claude, Gemini) */
+    .ai-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .ai-btn {
+      flex: 1;
+      min-width: 160px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ai-btn strong {
+      display: block;
+      font-size: 15px;
+      color: var(--text-main);
+    }
+
+    .ai-btn span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .ai-btn.active {
+      border-color: var(--udea-green);
+      background: var(--udea-light);
+    }
+
+    .ai-btn.active strong {
+      color: var(--udea-dark);
+    }
+
+    /* LAYOUT DIVIDIDO: ANÁLISIS + VISOR DE CAPTURAS */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .quote-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--udea-green);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #334155;
+      margin: 12px 0;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      background: var(--udea-light);
+      color: var(--udea-dark);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* VISOR DE CAPTURAS */
+    .viewer-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+
+    .viewer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--udea-dark);
+    }
+
+    .viewer-frame {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 290px;
+      max-height: 410px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* BLOQUE IMG CON TAMAÑO FIJO RESPONSIVO */
+    .viewer-frame img {
+      max-width: 100%;
+      width: 260px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .capture-caption {
+      font-size: 12.5px;
+      color: #475569;
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    .viewer-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-nav {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--udea-dark);
+      color: #ffffff;
+      border-color: var(--udea-dark);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* TABLA COMPARATIVA */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--udea-dark);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* SIMULADOR INTERACTIVO */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 820px) {
+      .sim-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .preset-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .preset-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .preset-btn.active, .preset-btn:hover {
+      background: var(--udea-green);
+      color: #ffffff;
+      border-color: var(--udea-green);
+    }
+
+    .slider-row {
+      margin-bottom: 12px;
+    }
+
+    .slider-row label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .slider-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--udea-green);
+    }
+
+    .formula-readout {
+      background: var(--udea-light);
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--udea-dark);
+      margin-top: 10px;
+    }
+
+    canvas#mathCanvas {
+      width: 100%;
+      height: 360px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* MODAL AMPLIAR IMAGEN */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.78);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 540px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .modal-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO OSCURO -->
+  <header class="hero-header">
+    <div class="container">
+      <div class="badge-inst">UNIVERSIDAD DE ANTIOQUIA · FACULTAD DE CIENCIAS EXACTAS Y NATURALES</div>
+      <h1>Informe grupal de IA sobre Transformación de Funciones</h1>
+      <p class="hero-subtitle">
+        Evaluación comparativa de ChatGPT, Claude y Gemini como asistentes pedagógicos para identificar familias de funciones y aplicar transformaciones gráficas.
+      </p>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span>Integrantes (Grupo 7)</span>
+          Jessica Agudelo Mejía · Mia Eliana María Guzmán Valencia · Samuel Ortiz Toro
+        </div>
+        <div class="meta-item">
+          <span>Curso y Docente</span>
+          Álgebra y Trigonometría · Prof. Andrés Sánchez Arteaga
+        </div>
+        <div class="meta-item">
+          <span>Fecha de Entrega</span>
+          24 de noviembre de 2026
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PESTAÑAS SUPERIORES -->
+  <nav class="top-nav-bar">
+    <div class="container nav-tabs">
+      <button class="tab-btn active" onclick="openTab('tab-prompt', this)">Prompt</button>
+      <button class="tab-btn" onclick="openTab('tab-comparativa', this)">1. Comparativa</button>
+      <button class="tab-btn" onclick="openTab('tab-consenso', this)">2. Consenso</button>
+      <button class="tab-btn" onclick="openTab('tab-simulador', this)">3. Simulador</button>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container main-content">
+
+    <!-- SECCIÓN 0: PROMPT -->
+    <section id="tab-prompt" class="tab-section active">
+      <div class="card">
+        <div class="card-title">
+          <span>Objetivo del Informe y Prompt Base Evaluado</span>
+          <button class="btn-copy" onclick="copyPrompt()">Copiar Prompt</button>
+        </div>
+        <p>
+          En este informe presentamos una evaluación de respuestas de la IA sobre una explicación y repaso dinámico de <strong>Transformación de Funciones</strong> para comprender mejor el tema y poder resolver ejercicios. Decidimos enviar un mismo prompt a tres IA diferentes: <strong>ChatGPT, Claude y Gemini</strong>, comparando sus respuestas y decidiendo qué entendemos o no de cada una.
+        </p>
+        <div class="prompt-box" id="promptText">
+          “Actúa como un profesor de matemáticas que quiere dar una clase de funciones de manera dinámica y que sea fácil de entender, vamos a graficar diferentes tipos de funciones y transformarlas. Necesito aprender alguna clave para diferenciarlas: función constante, función lineal, función cuadrática, función cúbica, función racional, función radical. Las transformaciones deben ser variadas, desde traslación, hasta alargamiento y reflexión. Explícame desde cero y dame ejemplos que se puedan aplicar en la vida diaria”
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Resumen Comparativo de Hallazgos</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Criterio Evaluado</th>
+              <th>ChatGPT (Mia)</th>
+              <th>Claude (Jessica)</th>
+              <th>Gemini (Samuel)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Enfoque Pedagógico</strong></td>
+              <td>Explicación secuencial desde cero con analogía de "máquina".</td>
+              <td>Pizarra interactiva inicial + tabla de identificación con ejemplos.</td>
+              <td>Clase visual e intuitiva con "huella de identidad" y ejemplos locales (COP).</td>
+            </tr>
+            <tr>
+              <td><strong>Recurso Interactivo</strong></td>
+              <td>No incluyó widget gráfico interactivo (solo texto y fórmulas).</td>
+              <td>Sí, pizarra interactiva con deslizadores (h, k, a, b) y botones de reflexión.</td>
+              <td>Sí, Explorador de Transformaciones con curva base y transformada en vivo.</td>
+            </tr>
+            <tr>
+              <td><strong>Fortaleza Principal</strong></td>
+              <td>Claridad para distinguir cambios "dentro" vs. "fuera" de la función.</td>
+              <td>Ejercicios guiados para experimentar directamente en la pizarra.</td>
+              <td>Regla de lectura "de adentro hacia afuera" y análisis de Dominio y Rango.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: COMPARATIVA (ChatGPT, Claude, Gemini) -->
+    <section id="tab-comparativa" class="tab-section">
+      <div class="ai-selector">
+        <button class="ai-btn active" onclick="selectAI('chatgpt', this)">
+          <strong>ChatGPT</strong>
+          <span>Análisis inicial por Mia · 13 capturas</span>
+        </button>
+        <button class="ai-btn" onclick="selectAI('claude', this)">
+          <strong>Claude (Sonnet 5.5)</strong>
+          <span>Análisis inicial por Jessica · 11 capturas</span>
+        </button>
+        <button class="ai-btn" onclick="selectAI('gemini', this)">
+          <strong>Gemini</strong>
+          <span>Análisis inicial por Samuel · 14 capturas</span>
+        </button>
+      </div>
+
+      <div class="split-grid">
+        <!-- COLUMNA IZQUIERDA: TARJETA DE ANÁLISIS -->
+        <div class="card" id="aiAnalysisCard">
+          <!-- Se rellena dinámicamente según el botón activo -->
+        </div>
+
+        <!-- COLUMNA DERECHA: VISOR DE CAPTURAS -->
+        <div class="viewer-card">
+          <div class="viewer-header">
+            <span id="viewerTitle">Evidencia visual: ChatGPT</span>
+            <span id="viewerCounter">1 / 13</span>
+          </div>
+          <div class="viewer-frame" id="viewerFrame">
+            <!-- REEMPLAZAR CAPTURA: El JS carga aquí el bloque <img> con max-width: 100%; height: auto; -->
+          </div>
+          <div class="viewer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+            <button class="btn-nav" onclick="openModal()">Ampliar imagen</button>
+            <button class="btn-nav" id="nextBtn" onclick="changeSlide(1)">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: CONSENSO Y PROFUNDIZACIÓN -->
+    <section id="tab-consenso" class="tab-section">
+      <div class="card">
+        <div class="card-title"><span>Decisión Grupal: Continuidad con Gemini</span></div>
+        <p>
+          Nos gustaron más las respuestas de <strong>Claude y Gemini</strong>, con tablas que explican muy bien y ejercicios interactivos. Finalmente llegamos al consenso de que <strong>Gemini</strong> nos dio una respuesta más intuitiva y dinámica, por lo que decidimos seguir la conversación con esta para terminar de comprender y practicar.
+        </p>
+        <p style="margin-top:8px;">
+          Nos hacía falta reconocer cada transformación cuando aparecen varias al mismo tiempo y entender cómo cambia la gráfica, además de encontrar una clave para no enredarnos con las variaciones en las fórmulas. Por ello solicitamos ejercicios, comparación de gráficas y análisis de dominio y rango.
+        </p>
+      </div>
+
+      <div class="ai-selector">
+        <button class="ai-btn active" onclick="selectConsenso('consenso1', this)">
+          <strong>Etapa 1: Regla "Adentro hacia Afuera"</strong>
+          <span>Clave de lectura y trampas radicales · 4 capturas</span>
+        </button>
+        <button class="ai-btn" onclick="selectConsenso('consenso2', this)">
+          <strong>Etapa 2: Paso a Paso de 3 Ejercicios</strong>
+          <span>Solución detallada + gráfica interactiva · 9 capturas</span>
+        </button>
+        <button class="ai-btn" onclick="selectConsenso('consenso3', this)">
+          <strong>Etapa 3: Comparación, Dominio y Rango</strong>
+          <span>Radicales, cuadráticas y valor absoluto · 7 capturas</span>
+        </button>
+      </div>
+
+      <div class="split-grid">
+        <div class="card" id="consensoAnalysisCard"></div>
+
+        <div class="viewer-card">
+          <div class="viewer-header">
+            <span id="consensoViewerTitle">Evidencia: Etapa 1</span>
+            <span id="consensoViewerCounter">1 / 4</span>
+          </div>
+          <div class="viewer-frame" id="consensoViewerFrame"></div>
+          <div class="viewer-controls">
+            <button class="btn-nav" id="cPrevBtn" onclick="changeConsensoSlide(-1)">← Anterior</button>
+            <button class="btn-nav" onclick="openConsensoModal()">Ampliar imagen</button>
+            <button class="btn-nav" id="cNextBtn" onclick="changeConsensoSlide(1)">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: SIMULADOR INTERACTIVO -->
+    <section id="tab-simulador" class="tab-section">
+      <div class="card">
+        <div class="card-title"><span>Laboratorio Interactivo de Transformaciones (Ejercicios del Taller)</span></div>
+        <p style="margin-bottom:14px;">
+          Selecciona uno de los ejercicios trabajados en el informe o ajusta manualmente los parámetros de la fórmula maestra <strong>g(x) = a · f(b · (x − h)) + k</strong> para visualizar el desplazamiento, reflexión, dominio y rango.
+        </p>
+
+        <div class="preset-btns">
+          <button class="preset-btn active" onclick="loadPreset('abs', this)">Ej. 1 Taller: f(x) = −|x + 2| + 3</button>
+          <button class="preset-btn" onclick="loadPreset('rad1', this)">Ej. 2 Taller: q(x) = −√(x + 1)</button>
+          <button class="preset-btn" onclick="loadPreset('quad', this)">Ej. 3 Taller: f(x) = −x² + 3</button>
+          <button class="preset-btn" onclick="loadPreset('rad2', this)">Trampa Examen: w(x) = √(4 − x)</button>
+        </div>
+
+        <div class="sim-grid">
+          <div>
+            <div class="slider-row">
+              <label><span>Función Base f(x)</span></label>
+              <select id="funcType" onchange="drawGraph()" style="width:100%; padding:7px; border-radius:6px; border:1px solid #cbd5e1;">
+                <option value="abs">Valor Absoluto: |x|</option>
+                <option value="quad">Cuadrática: x²</option>
+                <option value="rad">Radical: √x</option>
+                <option value="cub">Cúbica: x³</option>
+                <option value="lin">Lineal: x</option>
+                <option value="rat">Racional: 1/x</option>
+                <option value="const">Constante: 1</option>
+              </select>
+            </div>
+
+            <div class="slider-row">
+              <label><span>Traslación Horizontal (h)</span><span id="valH">-2</span></label>
+              <input type="range" id="paramH" min="-6" max="6" step="1" value="-2" oninput="drawGraph()">
+            </div>
+
+            <div class="slider-row">
+              <label><span>Traslación Vertical (k)</span><span id="valK">3</span></label>
+              <input type="range" id="paramK" min="-6" max="6" step="1" value="3" oninput="drawGraph()">
+            </div>
+
+            <div class="slider-row">
+              <label><span>Escala / Reflexión Vertical (a)</span><span id="valA">-1</span></label>
+              <input type="range" id="paramA" min="-3" max="3" step="0.5" value="-1" oninput="drawGraph()">
+            </div>
+
+            <div class="slider-row">
+              <label><span>Escala / Reflexión Horizontal (b)</span><span id="valB">1</span></label>
+              <input type="range" id="paramB" min="-2" max="2" step="0.5" value="1" oninput="drawGraph()">
+            </div>
+
+            <div class="formula-readout" id="formulaInfo">
+              Cargando datos...
+            </div>
+          </div>
+
+          <div>
+            <canvas id="mathCanvas" width="520" height="360"></canvas>
+            <div style="display:flex; gap:16px; justify-content:center; margin-top:8px; font-size:12.5px;">
+              <span><strong style="color:#94a3b8;">---</strong> Función Base f(x)</span>
+              <span><strong style="color:#0B6E3B;">━━</strong> Función Transformada g(x)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL PARA AMPLIAR IMÁGENES -->
+  <div class="modal-backdrop" id="imgModal" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div id="modalContent"></div>
+      <button class="btn-nav" onclick="document.getElementById('imgModal').classList.remove('open')">Cerrar vista ampliada</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       1. DATOS TEXTUALES Y BLOQUES DE CAPTURAS
+       INSTRUCCIONES PARA REEMPLAZAR IMÁGENES:
+       En cada objeto de los arreglos (chatgpt, claude, gemini, consenso1..3),
+       reemplaza el valor de `img` por:
+       - La ruta/URL de tu imagen (ej. "capturas/chatgpt_1.png"), O
+       - La cadena Base64 completa ("data:image/png;base64,iVBORw0KGgo...")
+       ========================================================================= */
+
+    // Función auxiliar que genera una imagen SVG de marcador de posición en Base64
+    // para que el HTML funcione autocontenido desde el primer segundo.
+    function crearPlaceholderBase64(titulo, subtitulo, colorBorde) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="420" viewBox="0 0 320 420">
+        <rect width="320" height="420" rx="16" fill="#ffffff" stroke="${colorBorde}" stroke-width="4"/>
+        <rect x="0" y="0" width="320" height="46" rx="12" fill="${colorBorde}"/>
+        <text x="160" y="29" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">${titulo}</text>
+        <rect x="24" y="70" width="272" height="230" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="6 4"/>
+        <text x="160" y="170" font-family="sans-serif" font-size="13" font-weight="bold" fill="#334155" text-anchor="middle">ESPACIO PARA CAPTURA REAL</text>
+        <text x="160" y="195" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">${subtitulo}</text>
+        <text x="160" y="225" font-family="sans-serif" font-size="10" fill="#0B6E3B" text-anchor="middle">Reemplazar en CAPTURAS (Base64 o URL)</text>
+        <rect x="24" y="320" width="272" height="72" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="160" y="352" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Evidencia del informe grupal</text>
+        <text x="160" y="370" font-family="sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Grupo 7 · Álgebra y Trigonometría</text>
+      </svg>`;
+      return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+    }
+
+    const ANALISIS_IA = {
+      chatgpt: {
+        titulo: "ChatGPT — Evaluación de Mia Eliana María Guzmán",
+        quote: "“La explicación me pareció útil porque comenzó desde lo más básico y me ayudó a diferenciar los tipos de funciones por su forma y por la expresión que tienen. Lo que más me ayudó fue entender que para transformar una función primero debo identificar la función base y después mirar qué cambios se hicieron. Entendí mejor las traslaciones verticales, las reflexiones y los alargamientos, aunque al principio me confundí con las transformaciones horizontales porque los signos parecen funcionar al contrario, también me di cuenta de que no es suficiente memorizar reglas, sino que tengo que fijarme en dónde aparece el número dentro de la función.”",
+        puntos: [
+          "Analogía inicial de la función como una 'máquina' (entra x, sale y).",
+          "Tabla comparativa de las 6 familias de funciones y ejemplos cotidianos.",
+          "Regla práctica: diferenciar si el número está 'afuera' (vertical) o 'dentro' (horizontal)."
+        ]
+      },
+      claude: {
+        titulo: "Claude (Sonnet 5.5) — Evaluación de Jessica Agudelo Mejía",
+        quote: "“Me gustó mucho el detalle de la pizarra interactiva, con ella puedo entender mejor el comportamiento de cada transformación de una función y poner en práctica la tabla que me arrojó para saber diferenciar cada función. Porque no basta los conceptos, es la práctica de estos y la comparación de sus comportamientos lo que hace más fácil comprender las diferencias y recordarlas cuando me vea ante un ejercicio de identificación de diferentes funciones y sus transformaciones.”",
+        puntos: [
+          "Pizarra interactiva integrada desde el inicio con deslizadores h, k, a, b.",
+          "Fórmula maestra unificada: y = a · f(b · (x − h)) + k.",
+          "5 ejercicios guiados para comprobar qué ocurre con vértices, asíntotas y dominio."
+        ]
+      },
+      gemini: {
+        titulo: "Gemini — Evaluación de Samuel Ortiz Toro",
+        quote: "“Me gustó mucho usar este prompt en Gemini porque convirtió una consulta cualquiera en una clase a mi medida, sin tener que leer muros de definiciones rígidas. Lo que más me sirvió fue el espacio interactivo para mover parámetros y ver en vivo cómo se traslada, estira o refleja cada gráfica, porque así entiendo la lógica de la fórmula en vez de memorizarla a ciegas. También me sirvió mucho tener claves claras para reconocer cada función al instante y ejemplos de la vida diaria que aterrizan lo abstracto, como pensar en repartir un premio o en un taxi para recordar cómo se comporta una curva, reunidas en un solo lugar y de manera efectiva.”",
+        puntos: [
+          "Concepto de 'huella de identidad' para reconocer cada función a primera vista.",
+          "Ejemplos contextualizados en pesos colombianos (COP) y ejemplo integrador de costos.",
+          "Explorador interactivo con curva base punteada y transformada en tiempo real."
+        ]
+      }
+    };
+
+    const CAPTURAS = {
+      chatgpt: [
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 1 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 1/13", "Introducción y tabla: Constante a Radical", "#10a37f"), desc: "Pantalla 1: Analogía de máquina y tabla inicial de tipos de funciones." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 2 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 2/13", "Cómo reconocerla y forma de gráfica", "#10a37f"), desc: "Pantalla 2: Columnas de reconocimiento algebraico y forma visual." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 3 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 3/13", "Continuación tabla de gráficas", "#10a37f"), desc: "Pantalla 3: Detalle de curvas separadas y curva radical." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 4 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 4/13", "2. Función base y 3. Traslación vertical", "#10a37f"), desc: "Pantalla 4: Concepto de función base f(x) = x² e inicio de traslación." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 5 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 5/13", "Regla de traslación vertical (+3 / -3)", "#10a37f"), desc: "Pantalla 5: Regla '+3 afuera sube, -3 afuera baja'." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 6 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 6/13", "4. Traslación horizontal (x - 2)²", "#10a37f"), desc: "Pantalla 6: Explicación del movimiento contrario dentro del paréntesis." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 7 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 7/13", "Comprobación del vértice y 5. Alargamiento", "#10a37f"), desc: "Pantalla 7: Igualar a cero para hallar vértice y estiramiento vertical." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 8 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 8/13", "Compresión vertical y 6. Reflexión", "#10a37f"), desc: "Pantalla 8: Factor 1/2 que ensancha la parábola y signo negativo." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 9 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 9/13", "Combinación y = -2(x - 3)² + 4", "#10a37f"), desc: "Pantalla 9: Ejemplo con tres transformaciones simultáneas." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 10 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 10/13", "7. Aplicación a ejercicios del taller", "#10a37f"), desc: "Pantalla 10: Desglose de transformaciones en valor absoluto." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 11 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 11/13", "8. Ejemplos de la vida diaria (Parte 1)", "#10a37f"), desc: "Pantalla 11: Parqueadero (constante), taxi (lineal) y pelota (cuadrática)." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 12 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 12/13", "8. Ejemplos vida diaria y clave final", "#10a37f"), desc: "Pantalla 12: Volumen cúbico, reparto inverso y raíz cuadrada." },
+        // <!-- REEMPLAZAR CAPTURA CHATGPT 13 -->
+        { img: crearPlaceholderBase64("ChatGPT · Captura 13/13", "Advertencia sobre signos dentro/fuera", "#10a37f"), desc: "Pantalla 13: Advertencia final para no memorizar mecánicamente." }
+      ],
+      claude: [
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 1 -->
+        { img: crearPlaceholderBase64("Claude · Captura 1/11", "Pizarra interactiva: Función Lineal", "#d97706"), desc: "Pantalla 1: Selector de funciones y plano cartesiano interactivo." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 2 -->
+        { img: crearPlaceholderBase64("Claude · Captura 2/11", "Controles deslizadores y Sección 1", "#d97706"), desc: "Pantalla 2: Sliders h, k, a, b, botones de reflexión y definición." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 3 -->
+        { img: crearPlaceholderBase64("Claude · Captura 3/11", "Tabla de 6 funciones (Constante-Cuadrática)", "#d97706"), desc: "Pantalla 3: Fórmula madre y clave en la fórmula." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 4 -->
+        { img: crearPlaceholderBase64("Claude · Captura 4/11", "Ejemplos vida diaria (Gimnasio, Taxi)", "#d97706"), desc: "Pantalla 4: Ejemplos cotidianos en la tabla comparativa." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 5 -->
+        { img: crearPlaceholderBase64("Claude · Captura 5/11", "Tabla: Cuadrática, Cúbica y Racional", "#d97706"), desc: "Pantalla 5: Exponentes 2, 3 y variable x en el denominador." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 6 -->
+        { img: crearPlaceholderBase64("Claude · Captura 6/11", "Formas y ejemplos (Balón, Cubo, Velocidad)", "#d97706"), desc: "Pantalla 6: Descripción de asíntotas y trayectoria parabólica." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 7 -->
+        { img: crearPlaceholderBase64("Claude · Captura 7/11", "Función Radical y 3. Fórmula Maestra", "#d97706"), desc: "Pantalla 7: Expresión y = a·f(b·(x - h)) + k y parámetro k." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 8 -->
+        { img: crearPlaceholderBase64("Claude · Captura 8/11", "Detalle radical y fórmula maestra", "#d97706"), desc: "Pantalla 8: Ejemplo de caída libre y truco de memorización." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 9 -->
+        { img: crearPlaceholderBase64("Claude · Captura 9/11", "Parámetros h, a, b y Reflexiones", "#d97706"), desc: "Pantalla 9: Efecto de cada parámetro y regla del paréntesis." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 10 -->
+        { img: crearPlaceholderBase64("Claude · Captura 10/11", "4. Ejercicios guiados en pizarra", "#d97706"), desc: "Pantalla 10: 5 retos prácticos para probar en la pizarra." },
+        // <!-- REEMPLAZAR CAPTURA CLAUDE 11 -->
+        { img: crearPlaceholderBase64("Claude · Captura 11/11", "5. Siguiente paso (Evaluación)", "#d97706"), desc: "Pantalla 11: Propuesta de ejercicios de práctica inversa." }
+      ],
+      gemini: [
+        // <!-- REEMPLAZAR CAPTURA GEMINI 1 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 1/14", "Bienvenida y 1. Clave o huella", "#0B6E3B"), desc: "Pantalla 1: Introducción visual y concepto de 'huella de identidad'." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 2 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 2/14", "Tabla de formas base y huellas", "#0B6E3B"), desc: "Pantalla 2: Resumen de las 6 familias de funciones." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 3 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 3/14", "Formas gráficas de cada familia", "#0B6E3B"), desc: "Pantalla 3: Descripción visual de parábolas, curvas en S e hipérbolas." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 4 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 4/14", "Lámina de gráficas positivas/negativas", "#0B6E3B"), desc: "Pantalla 4: Comparación visual entre signo positivo y negativo." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 5 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 5/14", "2. Familias: Constante y Lineal (COP)", "#0B6E3B"), desc: "Pantalla 5: Ejemplos de membresía (30.000 COP) y taxi (5.000 COP)." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 6 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 6/14", "Familias: Lineal y Cuadrática", "#0B6E3B"), desc: "Pantalla 6: Pendiente constante y aceleración simétrica." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 7 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 7/14", "Familias: Cúbica y Racional", "#0B6E3B"), desc: "Pantalla 7: Volumen de cubo y reparto de premio de 1.200.000 COP." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 8 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 8/14", "Familia Radical y 3. Transformaciones", "#0B6E3B"), desc: "Pantalla 8: Horizonte/caída libre e inicio de transformaciones." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 9 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 9/14", "1) Traslaciones Vertical y Horizontal", "#0B6E3B"), desc: "Pantalla 9: Reglas formales con k y h." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 10 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 10/14", "2) Reflexiones (efecto espejo)", "#0B6E3B"), desc: "Pantalla 10: Reflexión sobre eje x (-f(x)) y eje y (f(-x))." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 11 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 11/14", "3) Alargamiento y compresión", "#0B6E3B"), desc: "Pantalla 11: Escala vertical a·f(x) y horizontal f(bx)." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 12 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 12/14", "Ejemplo integrador y 4. Laboratorio", "#0B6E3B"), desc: "Pantalla 12: Costo de producción cuadrático con múltiples cambios." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 13 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 13/14", "Explorador de Transformaciones (Gráfica)", "#0B6E3B"), desc: "Pantalla 13: Widget interactivo graficando f(x) y g(x)." },
+        // <!-- REEMPLAZAR CAPTURA GEMINI 14 -->
+        { img: crearPlaceholderBase64("Gemini · Captura 14/14", "Controles del Explorador Interactivo", "#0B6E3B"), desc: "Pantalla 14: Deslizadores y botones de reflexión en X y Y." }
+      ],
+      consenso1: [
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 1 (1/4) -->
+        { img: crearPlaceholderBase64("Etapa 1 · Captura 1/4", "Regla de oro: Adentro hacia afuera", "#024926"), desc: "1. Identifica base, 2. Lee lo que toca a x (adentro), 3. Lee lo de afuera." },
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 1 (2/4) -->
+        { img: crearPlaceholderBase64("Etapa 1 · Captura 2/4", "1. Diferencia entre gráfica y fórmula", "#024926"), desc: "Comparación entre -x²+3 vs -2x² y |x-2| vs -|x+2|+3." },
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 1 (3/4) -->
+        { img: crearPlaceholderBase64("Etapa 1 · Captura 3/4", "2. Trampa clásica en radicales", "#024926"), desc: "Factorización del signo en w(x) = √(4 - x) = √(-(x - 4))." },
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 1 (4/4) -->
+        { img: crearPlaceholderBase64("Etapa 1 · Captura 4/4", "3. Efecto en Dominio y Rango", "#024926"), desc: "Lo de adentro afecta al Dominio (x); lo de afuera afecta al Rango (y)." }
+      ],
+      consenso2: [
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 2 (1..9) -->
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 1/9", "Ejercicio 1: f(x) = -|x + 2| + 3 (Paso 1)", "#024926"), desc: "Identificación de la función base valor absoluto y = |x|." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 2/9", "Ejercicio 1: Pasos 2 y 3", "#024926"), desc: "Desplazamiento a (-2, 0), reflexión hacia abajo y subida de 3 unidades." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 3/9", "Ejercicio 1: Puntos extra e inicio Ej. 2", "#024926"), desc: "Comprobación con puntos evaluados (-1, 2) y (-3, 2)." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 4/9", "Ejercicio 2: q(x) = -√(x + 1)", "#024926"), desc: "Traslación 1 unidad a la izquierda y reflexión respecto al eje x." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 5/9", "Ejercicio 2: Puntos e inicio Ej. 3", "#024926"), desc: "Evaluación en x = -1, 0, 3 e inicio de f(x) = -x² + 3." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 6/9", "Ejercicio 3: f(x) = -x² + 3 completo", "#024926"), desc: "Vértice final en (0, 3) y puntos de comprobación." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 7/9", "Gráfica interactiva de los 3 ejercicios", "#024926"), desc: "Selector rápido para visualizar cada ejercicio del taller." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 8/9", "Visualización gráfica de vértice (-2, 3)", "#024926"), desc: "Curva base punteada vs. curva transformada en azul con vértice marcado." },
+        { img: crearPlaceholderBase64("Etapa 2 · Captura 9/9", "Deslizadores de h, k y reflexión", "#024926"), desc: "Controles interactivos para experimentar con los parámetros." }
+      ],
+      consenso3: [
+        // <!-- REEMPLAZAR CAPTURA CONSENSO ETAPA 3 (1..7) -->
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 1/7", "Comparación 1: Radicales", "#024926"), desc: "Análisis visual de f(x)=√x, q(x)=-√(x+1) y w(x)=√(4-x)." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 2/7", "Dominio y Rango de Radicales", "#024926"), desc: "Intervalos resultantes: [-1, ∞) y (-∞, 4]." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 3/7", "Gráfica comparativa de Radicales", "#024926"), desc: "Tres curvas radicales con puntos de origen resaltados en colores." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 4/7", "Comparación 2: Cuadráticas", "#024926"), desc: "Alargamiento vertical (-2x²) vs. traslación vertical (-x² + 3)." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 5/7", "Gráfica comparativa de Parábolas", "#024926"), desc: "Comparación de abertura y vértices en el intervalo [-4, 4]." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 6/7", "Comparación 3: Valor Absoluto", "#024926"), desc: "Traslación simple |x - 2| vs. transformación múltiple -|x + 2| + 3." },
+        { img: crearPlaceholderBase64("Etapa 3 · Captura 7/7", "Gráfica comparativa Valor Absoluto", "#024926"), desc: "Tres gráficas en V con sus respectivos vértices en (0,0), (2,0) y (-2,3)." }
+      ]
+    };
+
+    const CONSENSO_INFO = {
+      consenso1: {
+        titulo: "Etapa 1: Regla de lectura 'De adentro hacia afuera' y trampas de examen",
+        texto: "Esta respuesta nos gustó mucho porque nos dio una guía clara con la idea de observar de 'adentro hacia afuera' para no enredarnos cuando aparecen varias transformaciones juntas, aunque faltaron las comparaciones de gráficas. También nos mostró de forma directa cómo pequeños cambios en las fórmulas del taller cambian la gráfica, el dominio y el rango. Además, nos ayudó a detectar trampas como factorizar el signo en expresiones radicales (√(4 − x) = √(−(x − 4))) y nos dejó listos para seguir resolviendo los demás ejercicios con mucha más confianza.",
+        puntos: [
+          "Paso 1: Identificar la huella de la función base.",
+          "Paso 2: Leer lo que toca a la x (adentro → movimiento horizontal y Dominio).",
+          "Paso 3: Leer lo de afuera (movimiento vertical, reflexión en X y Rango)."
+        ]
+      },
+      consenso2: {
+        titulo: "Etapa 2: Solución paso a paso de 3 ejercicios del taller + Gráfica interactiva",
+        texto: "Le pedimos las gráficas y los ejercicios que hicieron falta para terminar de comprender. Nos gustó el detalle de la gráfica interactiva, que nos muestra las diferencias en colores y nos recuerda la ubicación del vértice y cómo este se transforma en la reflexión o desplazamiento. Pero sentimos que era necesario organizar un poco mejor las gráficas junto con cada ejercicio comparado.",
+        puntos: [
+          "Ejercicio 1: f(x) = −|x + 2| + 3 → Vértice en (−2, 3).",
+          "Ejercicio 2: q(x) = −√(x + 1) → Punto de partida en (−1, 0) abriendo hacia abajo.",
+          "Ejercicio 3: f(x) = −x² + 3 → Parábola invertida con máximo en (0, 3)."
+        ]
+      },
+      consenso3: {
+        titulo: "Etapa 3: Comparación visual directa, Dominio y Rango",
+        texto: "Con este repaso final nos quedó más claro y pudimos repasar algunos ejercicios para terminar de asociarnos con las transformaciones, viendo simultáneamente en un mismo plano cartesiano cómo cada cambio algebraico modifica la abertura, orientación y extensión de la curva.",
+        puntos: [
+          "Radicales: Dominio restringido por el radicando ≥ 0; Rango determinado por el signo externo.",
+          "Cuadráticas: Dominio siempre ℝ; Rango acotado por la coordenada y del vértice.",
+          "Valor Absoluto: Identificación inmediata de vértice (h, k) y dirección de apertura."
+        ]
+      }
+    };
+
+    /* =========================================================================
+       2. NAVEGACIÓN DE PESTAÑAS Y CARRUSELES
+       ========================================================================= */
+    let currentAI = 'chatgpt';
+    let currentSlide = 0;
+
+    let currentConsenso = 'consenso1';
+    let currentConsensoSlide = 0;
+
+    function openTab(tabId, btn) {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+      if (tabId === 'tab-simulador') {
+        drawGraph();
+      }
+    }
+
+    function copyPrompt() {
+      const text = document.getElementById('promptText').innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Prompt copiado al portapapeles.");
+      });
+    }
+
+    function selectAI(aiKey, btn) {
+      currentAI = aiKey;
+      currentSlide = 0;
+      document.querySelectorAll('#tab-comparativa .ai-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAISection();
+    }
+
+    function renderAISection() {
+      const data = ANALISIS_IA[currentAI];
+      const card = document.getElementById('aiAnalysisCard');
+      card.innerHTML = `
+        <div class="card-title"><span>${data.titulo}</span></div>
+        <div class="quote-box">${data.quote}</div>
+        <strong style="font-size:13.5px; color:var(--udea-dark);">Aportes clave destacados por el grupo:</strong>
+        <ul style="margin:8px 0 0 18px; font-size:13.5px; color:#334155;">
+          ${data.puntos.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
+        </ul>
+      `;
+      renderSlide();
+    }
+
+    function renderSlide() {
+      const slides = CAPTURAS[currentAI];
+      const item = slides[currentSlide];
+      const names = { chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini" };
+      document.getElementById('viewerTitle').innerText = `Evidencia visual: ${names[currentAI]}`;
+      document.getElementById('viewerCounter').innerText = `${currentSlide + 1} / ${slides.length}`;
+      document.getElementById('viewerFrame').innerHTML = `
+        <img src="${item.img}" alt="${item.desc}" style="max-width: 100%; height: auto;">
+        <div class="capture-caption">${item.desc}</div>
+      `;
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+    }
+
+    function changeSlide(dir) {
+      const slides = CAPTURAS[currentAI];
+      currentSlide = Math.max(0, Math.min(slides.length - 1, currentSlide + dir));
+      renderSlide();
+    }
+
+    function openModal() {
+      const item = CAPTURAS[currentAI][currentSlide];
+      document.getElementById('modalContent').innerHTML = `
+        <img src="${item.img}" alt="${item.desc}" style="max-width: 100%; height: auto;">
+        <p style="font-size:13.5px; color:#334155; margin-bottom:12px;">${item.desc}</p>
+      `;
+      document.getElementById('imgModal').classList.add('open');
+    }
+
+    /* CONSENSO */
+    function selectConsenso(key, btn) {
+      currentConsenso = key;
+      currentConsensoSlide = 0;
+      document.querySelectorAll('#tab-consenso .ai-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderConsensoSection();
+    }
+
+    function renderConsensoSection() {
+      const data = CONSENSO_INFO[currentConsenso];
+      document.getElementById('consensoAnalysisCard').innerHTML = `
+        <div class="card-title"><span>${data.titulo}</span></div>
+        <p style="font-size:14px; color:#334155; margin-bottom:12px;">${data.texto}</p>
+        <strong style="font-size:13.5px; color:var(--udea-dark);">Puntos clave de aprendizaje:</strong>
+        <ul style="margin:8px 0 0 18px; font-size:13.5px; color:#334155;">
+          ${data.puntos.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
+        </ul>
+      `;
+      renderConsensoSlide();
+    }
+
+    function renderConsensoSlide() {
+      const slides = CAPTURAS[currentConsenso];
+      const item = slides[currentConsensoSlide];
+      document.getElementById('consensoViewerTitle').innerText = `Evidencia visual`;
+      document.getElementById('consensoViewerCounter').innerText = `${currentConsensoSlide + 1} / ${slides.length}`;
+      document.getElementById('consensoViewerFrame').innerHTML = `
+        <img src="${item.img}" alt="${item.desc}" style="max-width: 100%; height: auto;">
+        <div class="capture-caption">${item.desc}</div>
+      `;
+      document.getElementById('cPrevBtn').disabled = currentConsensoSlide === 0;
+      document.getElementById('cNextBtn').disabled = currentConsensoSlide === slides.length - 1;
+    }
+
+    function changeConsensoSlide(dir) {
+      const slides = CAPTURAS[currentConsenso];
+      currentConsensoSlide = Math.max(0, Math.min(slides.length - 1, currentConsensoSlide + dir));
+      renderConsensoSlide();
+    }
+
+    function openConsensoModal() {
+      const item = CAPTURAS[currentConsenso][currentConsensoSlide];
+      document.getElementById('modalContent').innerHTML = `
+        <img src="${item.img}" alt="${item.desc}" style="max-width: 100%; height: auto;">
+        <p style="font-size:13.5px; color:#334155; margin-bottom:12px;">${item.desc}</p>
+      `;
+      document.getElementById('imgModal').classList.add('open');
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'imgModal') {
+        document.getElementById('imgModal').classList.remove('open');
+      }
+    }
+
+    /* =========================================================================
+       3. SIMULADOR GRÁFICO INTERACTIVO (HTML5 CANVAS)
+       ========================================================================= */
+    function loadPreset(preset, btn) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const typeEl = document.getElementById('funcType');
+      const hEl = document.getElementById('paramH');
+      const kEl = document.getElementById('paramK');
+      const aEl = document.getElementById('paramA');
+      const bEl = document.getElementById('paramB');
+
+      if (preset === 'abs') {
+        typeEl.value = 'abs'; hEl.value = -2; kEl.value = 3; aEl.value = -1; bEl.value = 1;
+      } else if (preset === 'rad1') {
+        typeEl.value = 'rad'; hEl.value = -1; kEl.value = 0; aEl.value = -1; bEl.value = 1;
+      } else if (preset === 'quad') {
+        typeEl.value = 'quad'; hEl.value = 0; kEl.value = 3; aEl.value = -1; bEl.value = 1;
+      } else if (preset === 'rad2') {
+        typeEl.value = 'rad'; hEl.value = 4; kEl.value = 0; aEl.value = 1; bEl.value = -1;
+      }
+      drawGraph();
+    }
+
+    function evalBase(type, x) {
+      if (type === 'abs') return Math.abs(x);
+      if (type === 'quad') return x * x;
+      if (type === 'rad') return x >= 0 ? Math.sqrt(x) : NaN;
+      if (type === 'cub') return x * x * x;
+      if (type === 'lin') return x;
+      if (type === 'rat') return Math.abs(x) < 0.05 ? NaN : 1 / x;
+      if (type === 'const') return 1;
+      return x;
+    }
+
+    function drawGraph() {
+      const type = document.getElementById('funcType').value;
+      const h = parseFloat(document.getElementById('paramH').value);
+      const k = parseFloat(document.getElementById('paramK').value);
+      const a = parseFloat(document.getElementById('paramA').value);
+      const b = parseFloat(document.getElementById('paramB').value);
+
+      document.getElementById('valH').innerText = h;
+      document.getElementById('valK').innerText = k;
+      document.getElementById('valA').innerText = a;
+      document.getElementById('valB').innerText = b;
+
+      // Actualizar texto de Dominio, Rango y Punto Guía
+      let dom = "ℝ", ran = "ℝ";
+      if (type === 'quad' || type === 'abs') {
+        ran = a > 0 ? `[${k}, ∞)` : (a < 0 ? `(-∞, ${k}]` : `{${k}}`);
+      } else if (type === 'rad') {
+        dom = b > 0 ? `[${h}, ∞)` : (b < 0 ? `(-∞, ${h}]` : "ℝ");
+        ran = a > 0 ? `[${k}, ∞)` : (a < 0 ? `(-∞, ${k}]` : `{${k}}`);
+      } else if (type === 'rat') {
+        dom = b !== 0 ? `ℝ − {${h}}` : "ℝ";
+        ran = a !== 0 ? `ℝ − {${k}}` : `{${k}}`;
+      } else if (type === 'const') {
+        ran = `{${(a + k).toFixed(1)}}`;
+      }
+
+      document.getElementById('formulaInfo').innerHTML = `
+        <strong>Punto guía / Vértice (h, k):</strong> (${h}, ${k})<br>
+        <strong>Dominio estimado:</strong> ${dom}  |  <strong>Rango estimado:</strong> ${ran}
+      `;
+
+      const canvas = document.getElementById('mathCanvas');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const ht = canvas.height;
+      ctx.clearRect(0, 0, w, ht);
+
+      const scale = 30; // 30px por unidad
+      const cx = w / 2;
+      const cy = ht / 2;
+
+      // Cuadrícula
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1;
+      for (let x = cx % scale; x < w; x += scale) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ht); ctx.stroke();
+      }
+      for (let y = cy % scale; y < ht; y += scale) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // Ejes X e Y
+      ctx.strokeStyle = "#64748b";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, ht); ctx.stroke();
+
+      // Dibujar función base f(x) (punteada gris)
+      ctx.save();
+      ctx.strokeStyle = "#94a3b8";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      plotCurve(ctx, (x) => evalBase(type, x), w, cx, cy, scale);
+      ctx.restore();
+
+      // Dibujar función transformada g(x) = a * f(b*(x - h)) + k
+      ctx.strokeStyle = "#0B6E3B";
+      ctx.lineWidth = 3;
+      plotCurve(ctx, (x) => a * evalBase(type, b * (x - h)) + k, w, cx, cy, scale);
+
+      // Punto guía (h, k)
+      const px = cx + h * scale;
+      const py = cy - k * scale;
+      ctx.fillStyle = "#dc2626";
+      ctx.beginPath();
+      ctx.arc(px, py, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function plotCurve(ctx, fn, w, cx, cy, scale) {
+      ctx.beginPath();
+      let started = false;
+      for (let px = 0; px <= w; px += 2) {
+        const x = (px - cx) / scale;
+        const y = fn(x);
+        if (isNaN(y) || !isFinite(y) || Math.abs(y) > 20) {
+          started = false;
+          continue;
+        }
+        const py = cy - y * scale;
+        if (!started) {
+          ctx.moveTo(px, py);
+          started = true;
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      ctx.stroke();
+    }
+
+    // Inicializar vistas al cargar
+    renderAISection();
+    renderConsensoSection();
+    drawGraph();
+  </script>
+</body>
+</html>
