@@ -628,31 +628,77 @@
       }
     };
 
-    const CAPTURAS = {
+const CAPTURAS = {
       chatgpt: [
         { img: "CG1.jpg", desc: `Captura 1 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
-        { img: "CG2.jpg", desc: `Captura 2 de 13 — Respuesta de ChatGPT evaluada por Mia.` }
+        { img: "CG2.jpg", desc: `Captura 2 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG3.jpg", desc: `Captura 3 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG4.jpg", desc: `Captura 4 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG5.jpg", desc: `Captura 5 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG6.jpg", desc: `Captura 6 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG7.jpg", desc: `Captura 7 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG8.jpg", desc: `Captura 8 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG9.jpg", desc: `Captura 9 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG10.jpg", desc: `Captura 10 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG11.jpg", desc: `Captura 11 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG12.jpg", desc: `Captura 12 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG13.jpg", desc: `Captura 13 de 13 — Respuesta de ChatGPT evaluada por Mia.` }
       ],
-      claude: Array.from({length: 11}, (_, i) => ({
-        img: crearPlaceholder(`Claude · Captura ${i+1}/11`, `Pantalla ${i+1} de la conversación`, "#d97706"),
-        desc: `Captura ${i+1} de 11 — Respuesta de Claude evaluada por Jessica.`
-      })),
-      gemini: Array.from({length: 14}, (_, i) => ({
-        img: crearPlaceholder(`Gemini · Captura ${i+1}/14`, `Pantalla ${i+1} de la conversación`, "#0B6E3B"),
-        desc: `Captura ${i+1} de 14 — Respuesta de Gemini evaluada por Samuel.`
-      })),
-      consenso1: Array.from({length: 4}, (_, i) => ({
-        img: crearPlaceholder(`Etapa 1 · Captura ${i+1}/4`, `Regla de adentro hacia afuera`, "#024926"),
-        desc: `Etapa 1 (Captura ${i+1}/4) — Regla de lectura y trampas radicales.`
-      })),
-      consenso2: Array.from({length: 9}, (_, i) => ({
-        img: crearPlaceholder(`Etapa 2 · Captura ${i+1}/9`, `Paso a paso 3 ejercicios`, "#024926"),
-        desc: `Etapa 2 (Captura ${i+1}/9) — Solución detallada y gráfica interactiva.`
-      })),
-      consenso3: Array.from({length: 7}, (_, i) => ({
-        img: crearPlaceholder(`Etapa 3 · Captura ${i+1}/7`, `Comparación Dominio y Rango`, "#024926"),
-        desc: `Etapa 3 (Captura ${i+1}/7) — Comparación visual, Dominio y Rango.`
-      }))
+claude: [
+        { img: "C1.jpg", desc: `Captura 1 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C2.jpg", desc: `Captura 2 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C3.jpg", desc: `Captura 3 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C4.jpg", desc: `Captura 4 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C5.jpg", desc: `Captura 5 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C6.jpg", desc: `Captura 6 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C7.jpg", desc: `Captura 7 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C8.jpg", desc: `Captura 8 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C9.jpg", desc: `Captura 9 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C10.jpg", desc: `Captura 10 de 11 — Respuesta de Claude evaluada por Jessica.` },
+        { img: "C11.jpg", desc: `Captura 11 de 11 — Respuesta de Claude evaluada por Jessica.` }
+      ],
+gemini: [
+        { img: "G1.jpg", desc: `Captura 1 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G2.jpg", desc: `Captura 2 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G3.jpg", desc: `Captura 3 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G4.jpg", desc: `Captura 4 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G5.jpg", desc: `Captura 5 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G6.jpg", desc: `Captura 6 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G7.jpg", desc: `Captura 7 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G8.jpg", desc: `Captura 8 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G9.jpg", desc: `Captura 9 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G10.jpg", desc: `Captura 10 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G11.jpg", desc: `Captura 11 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G12.jpg", desc: `Captura 12 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G13.jpg", desc: `Captura 13 de 14 — Respuesta de Gemini evaluada por Samuel.` },
+        { img: "G14.jpg", desc: `Captura 14 de 14 — Respuesta de Gemini evaluada por Samuel.` }
+      ],
+consenso1: [
+        { img: "A1.jpg", desc: `Etapa 1 (Captura 1/4) — Regla de lectura y trampas radicales.` },
+        { img: "A2.jpg", desc: `Etapa 1 (Captura 2/4) — Regla de lectura y trampas radicales.` },
+        { img: "A3.jpg", desc: `Etapa 1 (Captura 3/4) — Regla de lectura y trampas radicales.` },
+        { img: "A4.jpg", desc: `Etapa 1 (Captura 4/4) — Regla de lectura y trampas radicales.` }
+      ],
+      consenso2: [
+        { img: "B1.jpg", desc: `Etapa 2 (Captura 1/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B2.jpg", desc: `Etapa 2 (Captura 2/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B3.jpg", desc: `Etapa 2 (Captura 3/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B4.jpg", desc: `Etapa 2 (Captura 4/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B5.jpg", desc: `Etapa 2 (Captura 5/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B6.jpg", desc: `Etapa 2 (Captura 6/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B7.jpg", desc: `Etapa 2 (Captura 7/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B8.jpg", desc: `Etapa 2 (Captura 8/9) — Solución detallada y gráfica interactiva.` },
+        { img: "B9.jpg", desc: `Etapa 2 (Captura 9/9) — Solución detallada y gráfica interactiva.` }
+      ],
+      consenso3: [
+        { img: "CC1.jpg", desc: `Etapa 3 (Captura 1/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC2.jpg", desc: `Etapa 3 (Captura 2/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC3.jpg", desc: `Etapa 3 (Captura 3/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC4.jpg", desc: `Etapa 3 (Captura 4/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC5.jpg", desc: `Etapa 3 (Captura 5/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC6.jpg", desc: `Etapa 3 (Captura 6/7) — Comparación visual, Dominio y Rango.` },
+        { img: "CC7.jpg", desc: `Etapa 3 (Captura 7/7) — Comparación visual, Dominio y Rango.` }
+      ]
     };
 
     const CONSENSO_INFO = {
