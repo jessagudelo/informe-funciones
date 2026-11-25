@@ -629,10 +629,10 @@
     };
 
     const CAPTURAS = {
-      chatgpt: Array.from({length: 13}, (_, i) => ({
-        img: crearPlaceholder(`ChatGPT · Captura ${i+1}/13`, `Pantalla ${i+1} de la conversación`, "#10a37f"),
-        desc: `Captura ${i+1} de 13 — Respuesta de ChatGPT evaluada por Mia.`
-      })),
+      chatgpt: [
+        { img: "CG1.jpg", desc: `Captura 1 de 13 — Respuesta de ChatGPT evaluada por Mia.` },
+        { img: "CG2.jpg", desc: `Captura 2 de 13 — Respuesta de ChatGPT evaluada por Mia.` }
+      ],
       claude: Array.from({length: 11}, (_, i) => ({
         img: crearPlaceholder(`Claude · Captura ${i+1}/11`, `Pantalla ${i+1} de la conversación`, "#d97706"),
         desc: `Captura ${i+1} de 11 — Respuesta de Claude evaluada por Jessica.`
